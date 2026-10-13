@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-run-ledger"
+version = "1.0.0"
+description = "The Resumable Multi-Step Execution State Machine, Anti-Loop Circuit Breaker & Crash Recovery Engine for AI Agents"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "Benni OS Core Engineering Group", email = "engineering@bennios.dev"}
+]
+keywords = [
+    "ai",
+    "agents",
+    "run-ledger",
+    "state-machine",
+    "durable-execution",
+    "circuit-breaker",
+    "anti-loop",
+    "crash-recovery",
+    "langchain",
+    "crewai",
+    "mcp",
+    "model-context-protocol",
+    "benni-os"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Typing :: Typed"
+]
+dependencies = [
+    "pydantic>=2.0.0",
+    "click>=8.0.0",
+    "rich>=12.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.0.0",
+]
+mcp = [
+    "mcp>=0.1.0",
+]
+langchain = [
+    "langchain-core>=0.1.0",
+]
+
+[project.scripts]
+run-ledger = "run_ledger.cli.main:cli"
+
+[project.urls]
+Homepage = "https://github.com/BenniAlencar/agent-run-ledger"
+Documentation = "https://docs.bennios.dev/agent-run-ledger"
+Repository = "https://github.com/BenniAlencar/agent-run-ledger.git"
+"Bug Tracker" = "https://github.com/BenniAlencar/agent-run-ledger/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["run_ledger*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
