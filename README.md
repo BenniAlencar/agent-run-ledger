@@ -8,6 +8,7 @@
 
 <br/><br/>
 
+[![PyPI](https://img.shields.io/pypi/v/agent-run-ledger?color=00F0FF&style=for-the-badge&logo=pypi&logoColor=0D0D0D)](https://pypi.org/project/agent-run-ledger/)
 [![CI](https://github.com/BenniAlencar/agent-run-ledger/actions/workflows/ci.yml/badge.svg)](https://github.com/BenniAlencar/agent-run-ledger/actions/workflows/ci.yml)
 [![Tests](https://img.shields.io/badge/Tests-21%20Passed-00F0FF?style=for-the-badge&logo=pytest&logoColor=0D0D0D)](#-test-suite--verification)
 [![Python](https://img.shields.io/badge/Python-3.10+-00F0FF?style=for-the-badge&logo=python&logoColor=0D0D0D)](https://www.python.org/)
