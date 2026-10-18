@@ -26,6 +26,12 @@
   Replace fragile Python scripts with a deterministic, crash-resilient state machine, anti-loop tripwires, and zero-cost resume.
 </p>
 
+<br/>
+
+<img src="assets/demo.svg" alt="Agent Run Ledger Terminal Execution Demo" width="100%"/>
+
+<br/><br/>
+
 [Quickstart](#-quickstart-in-30-seconds) •
 [Why Agent Runs Fail](#-the-3-fatal-failures-of-autonomous-agent-runs) •
 [Architecture](#-durable-state-machine-architecture) •
