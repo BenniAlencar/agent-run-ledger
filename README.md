@@ -10,7 +10,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/agent-run-ledger?color=00F0FF&style=for-the-badge&logo=pypi&logoColor=0D0D0D)](https://pypi.org/project/agent-run-ledger/)
 [![CI](https://github.com/BenniAlencar/agent-run-ledger/actions/workflows/ci.yml/badge.svg)](https://github.com/BenniAlencar/agent-run-ledger/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/Tests-21%20Passed-00F0FF?style=for-the-badge&logo=pytest&logoColor=0D0D0D)](#-test-suite--verification)
+[![Tests](https://img.shields.io/badge/Tests-25%20Passed-00F0FF?style=for-the-badge&logo=pytest&logoColor=0D0D0D)](#-test-suite--verification)
 [![Python](https://img.shields.io/badge/Python-3.10+-00F0FF?style=for-the-badge&logo=python&logoColor=0D0D0D)](https://www.python.org/)
 [![MCP](https://img.shields.io/badge/MCP-Server%20Built--In-00F0FF?style=for-the-badge&logo=anthropic&logoColor=0D0D0D)](https://modelcontextprotocol.io/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-0D0D0D?style=for-the-badge&logo=apache&logoColor=00F0FF)](LICENSE)
@@ -62,6 +62,39 @@ In 2026, developers building autonomous agents with LangChain, CrewAI, AutoGen, 
 ## 🏗️ Durable State Machine Architecture
 
 Every agent mission in Agent Run Ledger is governed as a deterministic directed finite-state machine:
+
+```text
+  LangChain / CrewAI / AutoGen / MCP Clients / Python Agents
+         │
+         ├──► RunLedger.execute_step(run_id, name, inputs)
+         └──► McpRunLedgerServer (JSON-RPC 2.0 Tools)
+                       │
+                       ▼
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │                        agent-run-ledger                             │
+  │                                                                     │
+  │  ┌───────────────────┐  ┌───────────────────┐  ┌─────────────────┐  │
+  │  │ Anti-Loop Circuit │  │  Durable Step     │  │ Atomic          │  │
+  │  │ Breaker           │─►│  State Machine    │─►│ Checkpoint      │  │
+  │  │ • Loop Detection  │  │  • PENDING/RUNNING│  │ • SHA-256 Seal  │  │
+  │  │ • Oscillation A-B │  │  • COMPLETED/FAIL │  │ • Tamper Guard  │  │
+  │  │ • Failure Ceiling │  │  • Compensation   │  │ • File Restore  │  │
+  │  └───────────────────┘  └───────────────────┘  └─────────────────┘  │
+  │                                                                     │
+  │  ┌───────────────────┐  ┌───────────────────┐  ┌─────────────────┐  │
+  │  │ Storage Backends  │  │  Framework        │  │ Tools & CLI     │  │
+  │  │ • SQLite WAL      │  │  Adapters         │  │ • doctor        │  │
+  │  │ • In-Memory       │  │  • LangChain      │  │ • bench_matrix  │  │
+  │  │ • BaseLedgerABC   │  │  • CrewAI / MCP   │  │ • inspect/list  │  │
+  │  └───────────────────┘  └───────────────────┘  └─────────────────┘  │
+  └─────────────────────────────────────────────────────────────────────┘
+         │                                         │
+         ▼                                         ▼
+   SQLite WAL Ledger (agent_runs.db)        SHA-256 Sealed Checkpoints
+   Crash-Resilient Step & Context State     Tamper-Evident Run Snapshots
+```
+
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full internal specification.
 
 ```mermaid
 graph TD
@@ -280,6 +313,69 @@ run-ledger resume <run_id>
 
 # Export an atomic SHA-256 sealed checkpoint snapshot
 run-ledger snapshot <run_id> checkpoint.json
+
+# Probe environment, SQLite WAL persistence & checkpoint integrity
+run-ledger doctor
+
+# Run multi-backend step throughput benchmark matrix
+run-ledger matrix --steps 10,50,100
+```
+
+<br/>
+
+<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/dark.png" width="100%"/>
+
+## 📁 Project Structure
+
+```text
+agent-run-ledger/
+├── docs/
+│   └── ARCHITECTURE.md                # Skill 90c/83 durable state machine specification
+├── examples/
+│   ├── 01_resumable_run.py            # Multi-step run with crash recovery & resume
+│   ├── 02_anti_loop_circuit_breaker.py# Loop, oscillation & failure ceiling tripwires
+│   ├── 03_step_compensation_rollback.py# Reverse-order Saga compensation rollback
+│   └── 04_mcp_run_ledger.py           # Model Context Protocol (MCP) server integration
+├── run_ledger/
+│   ├── __init__.py                    # Public package exports
+│   ├── version.py                     # Version, doctrine & maintainer metadata
+│   ├── adapters/
+│   │   ├── __init__.py                # Adapter exports
+│   │   ├── crewai.py                  # CrewAI tool & task ledger wrapper
+│   │   ├── langchain.py               # LangChain callback handler integration
+│   │   └── mcp_server.py              # Native MCP JSON-RPC 2.0 server
+│   ├── cli/
+│   │   ├── __init__.py                # CLI package marker
+│   │   └── main.py                    # Click + Rich CLI (info, list, inspect, resume, doctor, matrix)
+│   ├── core/
+│   │   ├── __init__.py                # Core engine exports
+│   │   ├── checkpoint.py              # SHA-256 sealed atomic run snapshots
+│   │   ├── circuit_breaker.py         # Anti-loop, oscillation & budget tripwires
+│   │   ├── ledger.py                  # RunLedger durable execution state machine
+│   │   └── models.py                  # Pydantic RunRecord, StepRecord & status enums
+│   ├── storage/
+│   │   ├── __init__.py                # Storage backend exports
+│   │   ├── base.py                    # Abstract BaseLedgerStorage interface
+│   │   ├── memory.py                  # Zero-I/O InMemoryLedgerStorage backend
+│   │   └── sqlite.py                  # ACID SQLite WAL persistence backend
+│   └── tools/
+│       ├── __init__.py                # Diagnostics & benchmark tool exports
+│       ├── bench_matrix.py            # Multi-backend step throughput benchmark matrix
+│       └── doctor.py                  # Environment, SQLite WAL & checkpoint probe
+├── scripts/
+│   ├── benchmark_ledger_throughput.py # In-memory vs SQLite WAL throughput benchmark
+│   └── gate_anti_loop_runner.py       # Fail-closed anti-loop & crash-resume gate runner
+└── tests/
+    ├── __init__.py                    # Test suite package marker
+    ├── conftest.py                    # Shared pytest fixtures
+    ├── test_adapters.py               # MCP, LangChain & CrewAI adapter tests
+    ├── test_circuit_breaker.py        # Loop, oscillation & budget tripwire tests
+    ├── test_cli.py                    # Click CLI command tests
+    ├── test_ledger_execution.py       # Step execution, idempotency & rollback tests
+    ├── test_models_and_states.py      # Record hashing & state transition tests
+    ├── test_resumability_and_checkpoint.py # Crash recovery & tamper rejection tests
+    ├── test_sqlite_persistence.py     # SQLite WAL persistence tests
+    └── test_tools_and_scripts.py      # Doctor, bench_matrix & gate script tests
 ```
 
 <br/>

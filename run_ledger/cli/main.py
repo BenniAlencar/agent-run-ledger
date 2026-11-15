@@ -181,5 +181,38 @@ def snapshot(run_id: str, output_path: str, db: str):
     console.print(f"[bold green]✔ Atomic run snapshot created at:[/bold green] [cyan]{saved.resolve()}[/cyan]")
 
 
+@cli.command("doctor")
+@click.option("--json", "as_json", is_flag=True, help="Output diagnostics as JSON.")
+def doctor(as_json: bool):
+    """Probes runtime environment, SQLite WAL persistence, and checkpoint sealing."""
+    from run_ledger.tools.doctor import run_doctor
+
+    report = run_doctor()
+    if as_json:
+        click.echo(json.dumps(report.to_dict(), indent=2))
+        return
+    _print_branding()
+    status_color = "green" if report.healthy else "red"
+    console.print(f"Health: [{status_color}]{'HEALTHY' if report.healthy else 'DEGRADED'}[/{status_color}] | Python {report.python_version} | SQLite {report.sqlite_version}")
+    console.print(f"SQLite Probe: {'OK' if report.sqlite_probe_ok else 'FAIL'} | Checkpoint Seal: {'OK' if report.checkpoint_probe_ok else 'FAIL'} ({report.probe_latency_ms} ms)")
+
+
+@cli.command("matrix")
+@click.option("--steps", default="10,50,100", help="Comma-separated step counts.")
+@click.option("--reps", default=2, help="Repetitions per cell.")
+@click.option("--json", "as_json", is_flag=True, help="Output matrix results as JSON.")
+def matrix(steps: str, reps: int, as_json: bool):
+    """Runs the multi-backend step throughput benchmark matrix."""
+    from run_ledger.tools.bench_matrix import BenchMatrixRunner
+
+    step_counts = [int(s.strip()) for s in steps.split(",") if s.strip()]
+    runner = BenchMatrixRunner(step_counts=step_counts, reps=reps)
+    data = runner.run_matrix()
+    if as_json:
+        click.echo(json.dumps(data, indent=2))
+    else:
+        click.echo(runner.format_markdown_table(data))
+
+
 if __name__ == "__main__":
     cli()
