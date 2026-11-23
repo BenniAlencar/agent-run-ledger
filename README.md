@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0D0D0D,50:002b36,100:00F0FF&height=200&section=header&text=agent-run-ledger&fontSize=56&fontColor=ffffff&fontAlignY=38&desc=Resumable%20Multi-Step%20State%20Machine%20and%20Anti-Loop%20Circuit%20Breaker%20for%20AI%20Agents&descAlignY=58&descSize=16&animation=fadeIn" width="100%"/>
+<img src="assets/banner_header.png" width="100%"/>
 
 <br/>
 
@@ -437,7 +437,7 @@ Agent Run Ledger is licensed under the [Apache License, Version 2.0](LICENSE).
 
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00F0FF,50:002b36,100:0D0D0D&height=120&section=footer" width="100%"/>
+<img src="assets/banner_footer.png" width="100%"/>
 
 **agent-run-ledger** — *Part of the [Benni OS](https://benni-os.net) Core Engineering Group*
 
