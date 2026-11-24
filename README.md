@@ -4,7 +4,7 @@
 
 <br/>
 
-<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=20&duration=3000&pause=800&color=00F0FF&center=true&vCenter=true&multiline=true&repeat=true&width=900&height=80&lines=Durable+Execution+State+Machine+for+AI+Agents.;Anti-Loop+Circuit+Breaker+%E2%80%94+Zero+Token+Runaways.;Crash+Resilient+Resume+%E2%80%94+Never+Re-Run+Past+Steps.;Benni+Master+OS+Kernel+v9.4+%E2%80%94+Skill+90c+and+83+Native." alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=20&duration=3000&pause=800&color=00F0FF&center=true&vCenter=true&multiline=true&repeat=true&width=900&height=80&l[...]
 
 <br/><br/>
 
@@ -16,6 +16,7 @@
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-0D0D0D?style=for-the-badge&logo=apache&logoColor=00F0FF)](LICENSE)
 [![Part of Benni OS](https://img.shields.io/badge/Part%20of-Benni%20OS%20Engineering-0D0D0D?style=for-the-badge&logo=githubactions&logoColor=00F0FF)](https://github.com/BenniAlencar)
 [![Benni OS](https://img.shields.io/badge/Benni%20OS-benni--os.net-0D0D0D?style=for-the-badge)](https://benni-os.net)
+[![BenniAlencar/agent-run-ledger MCP server](https://glama.ai/mcp/servers/BenniAlencar/agent-run-ledger/badges/score.svg)](https://glama.ai/mcp/servers/BenniAlencar/agent-run-ledger)
 
 <br/>
 
@@ -49,11 +50,11 @@
 
 In 2026, developers building autonomous agents with LangChain, CrewAI, AutoGen, or custom MCP loops face three catastrophic operational failures:
 
-1. **The Crash of Death (Zero Resumability)**: An agent plans a 10-step mission. At step 7, an API times out, rate-limits, or the process restarts. The entire run is lost. Re-running the agent forces it to restart at step 1 — burning double the token budget, re-calling third-party APIs, and causing unwanted duplicated side-effects.
-2. **The Hallucinatory Ping-Pong & Runaway Loop**: When an agent gets stuck or two agents collaborate in a delegation swarm, they frequently enter repetitive tool loops (calling `search_web` with identical queries 10 times) or ping-pong conversationally without making forward progress. A single runaway loop can consume $50+ in LLM tokens in minutes.
-3. **Non-Idempotent Duplicate Side-Effects**: Without step-level idempotency keys, re-attempting a failed workflow risks charging credit cards twice, sending duplicate webhook alerts, or creating duplicated cloud infrastructure.
+1. **The Crash of Death (Zero Resumability)**: An agent plans a 10-step mission. At step 7, an API times out, rate-limits, or the process restarts. The entire run is lost. Re-running the agent for
+2. **The Hallucinatory Ping-Pong & Runaway Loop**: When an agent gets stuck or two agents collaborate in a delegation swarm, they frequently enter repetitive tool loops (calling `search_web` with [...]
+3. **Non-Idempotent Duplicate Side-Effects**: Without step-level idempotency keys, re-attempting a failed workflow risks charging credit cards twice, sending duplicate webhook alerts, or creating [...]
 
-**Agent Run Ledger solves this permanently.** Derived from the **Benni Master OS v9.4 Doctrine (Skill 90c Run Ledger Protocol & Skill 83 Background Execution OS)**, it brings lightweight, zero-dependency durable execution to Python agents without requiring complex Temporal clusters or heavy infrastructure.
+**Agent Run Ledger solves this permanently.** Derived from the **Benni Master OS v9.4 Doctrine (Skill 90c Run Ledger Protocol & Skill 83 Background Execution OS)**, it brings lightweight, zero-dep[...]
 
 <br/>
 
@@ -70,24 +71,24 @@ Every agent mission in Agent Run Ledger is governed as a deterministic directed 
          └──► McpRunLedgerServer (JSON-RPC 2.0 Tools)
                        │
                        ▼
-  ┌─────────────────────────────────────────────────────────────────────┐
+  ┌───────────────────────────────────────────────────────────────�[...]
   │                        agent-run-ledger                             │
   │                                                                     │
-  │  ┌───────────────────┐  ┌───────────────────┐  ┌─────────────────┐  │
+  │  ┌───────────────────┐  ┌───────────────────┐  ┌─────────────────┐  [...]
   │  │ Anti-Loop Circuit │  │  Durable Step     │  │ Atomic          │  │
   │  │ Breaker           │─►│  State Machine    │─►│ Checkpoint      │  │
   │  │ • Loop Detection  │  │  • PENDING/RUNNING│  │ • SHA-256 Seal  │  │
   │  │ • Oscillation A-B │  │  • COMPLETED/FAIL │  │ • Tamper Guard  │  │
   │  │ • Failure Ceiling │  │  • Compensation   │  │ • File Restore  │  │
-  │  └───────────────────┘  └───────────────────┘  └─────────────────┘  │
+  │  └───────────────────┘  └───────────────────┘  └─────────────────┘  [...]
   │                                                                     │
-  │  ┌───────────────────┐  ┌───────────────────┐  ┌─────────────────┐  │
+  │  ┌───────────────────┐  ┌───────────────────┐  ┌─────────────────┐  [...]
   │  │ Storage Backends  │  │  Framework        │  │ Tools & CLI     │  │
   │  │ • SQLite WAL      │  │  Adapters         │  │ • doctor        │  │
   │  │ • In-Memory       │  │  • LangChain      │  │ • bench_matrix  │  │
   │  │ • BaseLedgerABC   │  │  • CrewAI / MCP   │  │ • inspect/list  │  │
-  │  └───────────────────┘  └───────────────────┘  └─────────────────┘  │
-  └─────────────────────────────────────────────────────────────────────┘
+  │  └───────────────────┘  └───────────────────┘  └─────────────────┘  [...]
+  └───────────────────────────────────────────────────────────────�[...]
          │                                         │
          ▼                                         ▼
    SQLite WAL Ledger (agent_runs.db)        SHA-256 Sealed Checkpoints
@@ -110,7 +111,7 @@ graph TD
     H --> J["5. RUN COMPLETED<br><i>Deterministic SHA-256 State Digest</i>"]
 ```
 
-> **The Resumability Law**: When a run is interrupted or fails at step $N$, calling `resume_run()` preserves all outputs from steps $1 \dots N-1$, resets consecutive failure counters, and continues directly from the uncompleted step.
+> **The Resumability Law**: When a run is interrupted or fails at step $N$, calling `resume_run()` preserves all outputs from steps $1 \dots N-1$, resets consecutive failure counters, and continu[...]
 
 <br/>
 
@@ -232,7 +233,7 @@ print(f"Compensated {len(rolled_back)} steps.")
 ## 📊 Comparison: Agent Run Ledger vs. Existing Alternatives
 
 | Capability | Heavy Orchestrators (Temporal / Inngest) | Raw LangChain / CrewAI Scripts | **agent-run-ledger** |
-| :--- | :---: | :---: | :---: |
+| | :--- | :---: | :---: | :---: |
 | **Infrastructure Overhead** | Heavy (requires daemon server clusters) | None | **Zero (Embedded SQLite or Memory)** |
 | **Crash Resumability** | ✅ Yes | ❌ Lost on process exit | **✅ Instant (`resume_run()`)** |
 | **Anti-Loop Circuit Breaker** | ❌ Manual coding | ❌ No | **✅ Built-In (Loop + Oscillation)** |
@@ -388,23 +389,23 @@ agent-run-ledger/
 
 | Repository | Focus & Architecture | Stars |
 | :--- | :--- | :---: |
-| **[`conductor-sdd`](https://github.com/Benni-OS/conductor-sdd)** | Zero-Dependency Spec-Driven Development, Static AST Drift Detector & MCP Guardrail | [![GitHub Stars](https://img.shields.io/github/stars/Benni-OS/conductor-sdd?style=flat)](https://github.com/Benni-OS/conductor-sdd) |
-| **[`benni-inference-engine`](https://github.com/Benni-OS/benni-inference-engine)** | High-Throughput Sovereign Local Inference for 8GB–16GB Consumer GPUs | [![GitHub Stars](https://img.shields.io/github/stars/Benni-OS/benni-inference-engine?style=flat)](https://github.com/Benni-OS/benni-inference-engine) |
-| **[`agent-eval-harness`](https://github.com/BenniAlencar/agent-eval-harness)** | Deterministic Zero-Cloud Agent Evaluation, Red-Teaming & Benchmark Harness | [![GitHub Stars](https://img.shields.io/github/stars/BenniAlencar/agent-eval-harness?style=flat)](https://github.com/BenniAlencar/agent-eval-harness) |
-| **[`agent-code-sandbox`](https://github.com/BenniAlencar/agent-code-sandbox)** | Micro-Second Zero-Dependency Code Sandbox & Execution Shield for AI Agents | [![GitHub Stars](https://img.shields.io/github/stars/BenniAlencar/agent-code-sandbox?style=flat)](https://github.com/BenniAlencar/agent-code-sandbox) |
-| **[`agent-deep-research`](https://github.com/BenniAlencar/agent-deep-research)** | Autonomous Multi-Source Deep Research & Evidence Synthesis Engine | [![GitHub Stars](https://img.shields.io/github/stars/BenniAlencar/agent-deep-research?style=flat)](https://github.com/BenniAlencar/agent-deep-research) |
-| **[`agent-browser-mesh`](https://github.com/BenniAlencar/agent-browser-mesh)** | Token-Saving Resilient Headless Browser Automation & A11y DOM Compiler | [![GitHub Stars](https://img.shields.io/github/stars/BenniAlencar/agent-browser-mesh?style=flat)](https://github.com/BenniAlencar/agent-browser-mesh) |
-| **[`agent-intent-compiler`](https://github.com/BenniAlencar/agent-intent-compiler)** | Deterministic Intent Compiler & Typed DAG Execution Planner for AI Agents | [![GitHub Stars](https://img.shields.io/github/stars/BenniAlencar/agent-intent-compiler?style=flat)](https://github.com/BenniAlencar/agent-intent-compiler) |
-| **[`agent-token-optimizer`](https://github.com/BenniAlencar/agent-token-optimizer)** | Sub-Millisecond Context Compression & Semantic Deduplication Engine | [![GitHub Stars](https://img.shields.io/github/stars/BenniAlencar/agent-token-optimizer?style=flat)](https://github.com/BenniAlencar/agent-token-optimizer) |
-| **[`bio-sync-operator-os`](https://github.com/BenniAlencar/bio-sync-operator-os)** | Real-Time Biometric Swarm Governance & 120 FPS Resonant Kinetic Interface | [![GitHub Stars](https://img.shields.io/github/stars/BenniAlencar/bio-sync-operator-os?style=flat)](https://github.com/BenniAlencar/bio-sync-operator-os) |
-| **[`agent-cyber-sentinel`](https://github.com/BenniAlencar/agent-cyber-sentinel)** | Zero-Trust Runtime Security, Prompt Injection Firewall & Secrets Redaction | [![GitHub Stars](https://img.shields.io/github/stars/BenniAlencar/agent-cyber-sentinel?style=flat)](https://github.com/BenniAlencar/agent-cyber-sentinel) |
-| **[`agent-run-ledger`](https://github.com/BenniAlencar/agent-run-ledger)** | Deterministic Multi-Step Task Execution Ledger & Anti-Looping Engine | [![GitHub Stars](https://img.shields.io/github/stars/BenniAlencar/agent-run-ledger?style=flat)](https://github.com/BenniAlencar/agent-run-ledger) |
-| **[`reality-lock`](https://github.com/BenniAlencar/reality-lock)** | Cryptographic State Verification & Invariant Proof Engine for Agents | [![GitHub Stars](https://img.shields.io/github/stars/BenniAlencar/reality-lock?style=flat)](https://github.com/BenniAlencar/reality-lock) |
-| **[`agent-memory-mesh`](https://github.com/BenniAlencar/agent-memory-mesh)** | Hybrid Vector + BM25 Hierarchical Session Memory & Continuity Engine | [![GitHub Stars](https://img.shields.io/github/stars/BenniAlencar/agent-memory-mesh?style=flat)](https://github.com/BenniAlencar/agent-memory-mesh) |
-| **[`benni-operator-gateway`](https://github.com/Benni-OS/benni-operator-gateway)** | Human-in-the-Loop Approval & Policy Enforcement Gateway | [![GitHub Stars](https://img.shields.io/github/stars/Benni-OS/benni-operator-gateway?style=flat)](https://github.com/Benni-OS/benni-operator-gateway) |
-| **[`mcp-forge`](https://github.com/Benni-OS/mcp-forge)** | Rapid Model Context Protocol (MCP) Server Scaffolding & Dynamic Tooling | [![GitHub Stars](https://img.shields.io/github/stars/Benni-OS/mcp-forge?style=flat)](https://github.com/Benni-OS/mcp-forge) |
-| **[`benni-nexus`](https://github.com/Benni-OS/benni-nexus)** | Autonomous Multi-Agent Intent Routing & Swarm Coordination Hub | [![GitHub Stars](https://img.shields.io/github/stars/Benni-OS/benni-nexus?style=flat)](https://github.com/Benni-OS/benni-nexus) |
-| **[`community-autopilot`](https://github.com/Benni-OS/community-autopilot)** | Autonomous GitHub Community Triaging & PR Feedback Agent | [![GitHub Stars](https://img.shields.io/github/stars/Benni-OS/community-autopilot?style=flat)](https://github.com/Benni-OS/community-autopilot) |
+| **[`conductor-sdd`](https://github.com/Benni-OS/conductor-sdd)** | Zero-Dependency Spec-Driven Development, Static AST Drift Detector & MCP Guardrail | [![GitHub Stars](https://img.shields.io/g[...]
+| **[`benni-inference-engine`](https://github.com/Benni-OS/benni-inference-engine)** | High-Throughput Sovereign Local Inference for 8GB–16GB Consumer GPUs | [![GitHub Stars](https://img.shield[...]
+| **[`agent-eval-harness`](https://github.com/BenniAlencar/agent-eval-harness)** | Deterministic Zero-Cloud Agent Evaluation, Red-Teaming & Benchmark Harness | [![GitHub Stars](https://img.shields.io/g[...]
+| **[`agent-code-sandbox`](https://github.com/BenniAlencar/agent-code-sandbox)** | Micro-Second Zero-Dependency Code Sandbox & Execution Shield for AI Agents | [![GitHub Stars](https://img.shields.io/g[...]
+| **[`agent-deep-research`](https://github.com/BenniAlencar/agent-deep-research)** | Autonomous Multi-Source Deep Research & Evidence Synthesis Engine | [![GitHub Stars](https://img.shields.io/g[...]
+| **[`agent-browser-mesh`](https://github.com/BenniAlencar/agent-browser-mesh)** | Token-Saving Resilient Headless Browser Automation & A11y DOM Compiler | [![GitHub Stars](https://img.shields.io[...]
+| **[`agent-intent-compiler`](https://github.com/BenniAlencar/agent-intent-compiler)** | Deterministic Intent Compiler & Typed DAG Execution Planner for AI Agents | [![GitHub Stars](https://img.s[...]
+| **[`agent-token-optimizer`](https://github.com/BenniAlencar/agent-token-optimizer)** | Sub-Millisecond Context Compression & Semantic Deduplication Engine | [![GitHub Stars](https://img.shields[...]
+| **[`bio-sync-operator-os`](https://github.com/BenniAlencar/bio-sync-operator-os)** | Real-Time Biometric Swarm Governance & 120 FPS Resonant Kinetic Interface | [![GitHub Stars](https://img.shi[...]
+| **[`agent-cyber-sentinel`](https://github.com/BenniAlencar/agent-cyber-sentinel)** | Zero-Trust Runtime Security, Prompt Injection Firewall & Secrets Redaction | [![GitHub Stars](https://img.sh[...]
+| **[`agent-run-ledger`](https://github.com/BenniAlencar/agent-run-ledger)** | Deterministic Multi-Step Task Execution Ledger & Anti-Looping Engine | [![GitHub Stars](https://img.shields.io/githu[...]
+| **[`reality-lock`](https://github.com/BenniAlencar/reality-lock)** | Cryptographic State Verification & Invariant Proof Engine for Agents | [![GitHub Stars](https://img.shields.io/github/stars/[...]
+| **[`agent-memory-mesh`](https://github.com/BenniAlencar/agent-memory-mesh)** | Hybrid Vector + BM25 Hierarchical Session Memory & Continuity Engine | [![GitHub Stars](https://img.shields[...]
+| **[`benni-operator-gateway`](https://github.com/Benni-OS/benni-operator-gateway)** | Human-in-the-Loop Approval & Policy Enforcement Gateway | [![GitHub Stars](https://img.shields.io/github/sta[...]
+| **[`mcp-forge`](https://github.com/Benni-OS/mcp-forge)** | Rapid Model Context Protocol (MCP) Server Scaffolding & Dynamic Tooling | [![GitHub Stars](https://img.shields.io/github/stars/Benni-O[...]
+| **[`benni-nexus`](https://github.com/Benni-OS/benni-nexus)** | Autonomous Multi-Agent Intent Routing & Swarm Coordination Hub | [![GitHub Stars](https://img.shields.io/github/stars/Benni-OS/ben[...]
+| **[`community-autopilot`](https://github.com/Benni-OS/community-autopilot)** | Autonomous GitHub Community Triaging & PR Feedback Agent | [![GitHub Stars](https://img.shields.io/github/stars/Be[...]
 
 <br/>
 
